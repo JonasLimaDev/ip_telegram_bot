@@ -1,13 +1,17 @@
 import telebot
-import os
-CHAVE_API = "5413396799:AAHkuJp931U8WhY0aLZ4nzCTWvbRdDowMIw"
+
 import threading
-bot = telebot.TeleBot(CHAVE_API)
-ip = "8.8.8.8"
+import subprocess  
+import platform , os    
+
 from time import sleep
-import platform    # For getting the operating system name
-import subprocess  # For executing a shell command
 from multiprocessing.pool import ThreadPool
+
+
+token = open("TOKEN",'r') 
+CHAVE_API = token.read()
+bot = telebot.TeleBot(CHAVE_API)
+
 
 def usuarios_cadastrados():
     """
@@ -56,16 +60,12 @@ def ip_is_alive(ip_str):
         return False
 
 
-def ping(host,bot):
+def ping(bot):
     """
     Faz o teste de ping constante de ip
     """
     while(True):
-        # Option for the number of packets as a function of
-        #param = '-n' if platform.system().lower() == 'windows' else '-c'
-        # Building the command. Ex: "ping -c 1 google.com"
-        #command = ['ping', param, '1', host]
-        #teste  = subprocess.call(command,stdout=subprocess.PIPE)
+
         lista_usuarios = usuarios_cadastrados()
         for ip in listar_ips():
             teste = ip_is_alive(ip)
@@ -100,16 +100,14 @@ def cadastrar_usuario(mensagem):
         arquivo.close()
         bot.reply_to(mensagem, f"Você foi Adicionado é receberá um alerta quando algo acontecer")
     else:
-        print("Já tá garai")
         bot.reply_to(mensagem, f"Opa!!!\n Você já está cadastrado para receber alertas")
 
 
 @bot.message_handler(commands=["remover"])
-def cadastrar_usuario(mensagem):
+def remover_usuario(mensagem):
     """
     Remove o usuário para receber alertas
     """
-    #print(mensagem.text)
     chatid = mensagem.chat.id
     #bot.send_message(mensagem.chat.id, f"num vai dar não 🙁")
     usuarios_atuais = usuarios_cadastrados()
@@ -164,8 +162,29 @@ def responder(mensagem):
 
     bot.reply_to(mensagem, texto)
 
-x = threading.Thread(target=ping, args=(ip,bot))
+
+@bot.message_handler(commands=["help","ajuda"])
+def responder(mensagem):
+    #print(mensagem.text)
+    texto = """
+    Escolha uma opção para continuar (Clique no item):\n
+    /cadastrar :\n
+    Adiciona o usuáro para receber alertas.\n
+    /remover :\n
+    Remove o usuáro para receber alertas\n
+    /testar_ip\n
+    faz um teste separado para um IP específico
+    Ex: /testar_ip 192.168.37.13\n
+    """
+
+    bot.send_message(mensagem.chat.id, texto)
+
+
+
+x = threading.Thread(target=ping, args=(bot))
 x.start()
 listar_ips()
+
+
 
 bot.polling()
