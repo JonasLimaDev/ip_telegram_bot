@@ -1,5 +1,5 @@
 import telebot
-
+from .modulos import *
 import threading
 import subprocess  
 import platform , os    
@@ -10,42 +10,10 @@ from multiprocessing.pool import ThreadPool
 
 token = open("TOKEN",'r') 
 CHAVE_API = token.read()
+
+criar_arquivos()
+
 bot = telebot.TeleBot(CHAVE_API)
-
-
-def usuarios_cadastrados():
-    """
-    Retorna uma lista com os id's de chat de usuários cadastrados para receber alerta.
-    """
-    if not os.path.exists("./users.txt"):
-        arquivo = open("./users.txt",'w')
-        arquivo.close()
-    arquivo = open("./users.txt",'r')
-    lista =[]
-    for linha in arquivo.readlines():
-        #print(linha[:-1])
-        lista.append(linha.replace("\n",""))
-    arquivo.close()
-    return lista
-
-
-
-def listar_ips():
-    """
-    Retorna uma lista com os id's de chat de usuários cadastrados para receber alerta.
-    """
-    if not os.path.exists("./ips.txt"):
-        arquivo = open("./ips.txt",'w')
-        arquivo.close()
-
-    arquivo = open("./ips.txt",'r')
-    lista_ips = []
-
-    for linha in arquivo.readlines():
-        #print(linha[:-1])
-        lista_ips.append(linha.replace("\n",""))
-    arquivo.close()
-    return lista_ips
 
 
 def ip_is_alive(ip_str):
