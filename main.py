@@ -1,6 +1,6 @@
 import telebot
 import os
-CHAVE_API = "5413396799:AAHkuJp931U8WhY0aLZ4nzCTWvbRdDowMIw"
+CHAVE_API = "TOKEN"
 import threading
 bot = telebot.TeleBot(CHAVE_API)
 ip = "8.8.8.8"
