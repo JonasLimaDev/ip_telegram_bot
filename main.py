@@ -18,11 +18,13 @@ def ping(telebot):
     """
     while(True):
         lista_usuarios = get_dados_arquivo("users")
+        ips_off = get_dados_arquivo("alertas")
         for ip in get_dados_arquivo("monitorados"):
             teste_ip = ip_is_alive(ip)
             if not teste_ip:
-                for usuario in lista_usuarios:
-                    telebot.send_message(usuario, f"❌ Algo de errado com o IP: {ip}")
+                if ip not in ips_off:
+                    for usuario in lista_usuarios:
+                        telebot.send_message(usuario, f"❌ Algo de errado com o IP: {ip}")
                     #telebot.send_message(usuario, f"✅ Tudo certo com o IP: {ip}") #envia a mensagem tudo certo
             #else:
                 #for usuario in lista_usuarios:
@@ -36,7 +38,7 @@ def cadastrar_usuario(mensagem):
     Adiciona o usuário para receber alertas
     """
     chatid = mensagem.chat.id
-    salvo = salvar_usuario(chatid)
+    salvo = salvar_dados("users",chatid)
     if salvo:
         bot.reply_to(mensagem, f"Você foi Adicionado é receberá um alerta quando algo acontecer")
     else:
@@ -49,7 +51,8 @@ def remover_usuario(mensagem):
     Remove o usuário para receber alertas
     """
     chatid = mensagem.chat.id
-    deletado = deletar_usuario(chatid)
+    deletado = deletar_informacao("users",chatid)
+    
     if deletado:
         bot.reply_to(mensagem, f"Você foi Removido e  não receberá mais alertas")
     else:

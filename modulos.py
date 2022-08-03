@@ -30,75 +30,47 @@ def criar_arquivos():
             continue
     
 
-def get_dados_arquivo(tipo):
+def get_dados_arquivo(arquivo):
     """
     Retorna uma lista com os id's de chat de usuários cadastrados para receber alerta.
     """
     lista =[]
-    with open(lista_arquivos[tipo], "r") as file:
+    with open(lista_arquivos[arquivo], "r") as file:
         for linha in file.readlines():
             lista.append(linha.replace("\n",""))
     return lista
 
 
-def salvar_usuario(user_chat_id):
+
+def salvar_dados(arquivo,informacao):
     """
-    Salva o usuário para receber alertas.
+    Função genérica para salvar dados em arquivo.
     """
-    usuarios_atuais = get_dados_arquivo("users")
-    if str(user_chat_id) not in usuarios_atuais:
-        with open(lista_arquivos['users'], "a") as f:
-            f.write(f"{user_chat_id}\n")
+    dados_atuais = get_dados_arquivo(arquivo)
+    if str(informacao) not in dados_atuais:
+        with open(lista_arquivos[arquivo], "a") as f:
+            f.write(f"{informacao}\n")
         return True
     else:
         return False
 
 
-def deletar_usuario(user_chat_id):
+def deletar_informacao(arquivo,info):
     """
-    Remove um id dos arquivo de usuários.
-    Ao remover o usuário deixará de receber notificações. 
+    Função genérica para remover dados em arquivo.
     """
-    usuarios_atuais = get_dados_arquivo("users")
-    if str(user_chat_id) in usuarios_atuais:
-        with open(lista_arquivos['users'], "w") as f:
-            for usuario in usuarios_atuais:
-                if usuario != str(user_chat_id):
-                    f.write(f"{usuario}\n")
+    dados_atuais = get_dados_arquivo(arquivo)
+    print(dados_atuais)
+
+    if str(info) in dados_atuais:
+        with open(lista_arquivos[arquivo], "w") as f:
+            for dado in dados_atuais:
+                if dado != str(info):
+                    f.write(f"{dado}\n")
         return True
     else:
         return False
 
-
-def adicionar_ip_monitorado(ip_str):
-    ips_monitorados = get_dados_arquivo("monitorados")
-    if ip_str not in ips_monitorados:
-        with open(lista_arquivos['users'], "a") as f:
-            f.write(f"{ip_str}\n")
-        return True
-    else:
-        return False
-
-
-def salvar_ip_alerta(ip_lista_adicionar):
-    """
-    Recebe uma lista dos IP's offlines para alertar se voltaram
-    """
-    with open(lista_arquivos['alertas'], "a") as f:
-        for ip in ip_lista_adicionar:
-            f.write(f"{ip}\n")
-
-
-def remover_ip_alerta(ip_lista_remover):
-    """
-    Recebe uma lista de IP's para remover da lista de alertas.
-    """
-    lista_ips_alertas = get_dados_arquivo("alertas") # IP's na lista atualmente
-    with open(lista_arquivos['alertas'], "w") as f:
-        for ip in lista_ips_alertas:
-            if ip not in ip_lista_remover:
-                #escreve o ip no arquivo se ele não estiver na lista de remoção
-                f.write(f"{ip}\n")
 
 
 #|=============================================================|#
