@@ -19,11 +19,11 @@ def ping(telebot):
     while(True):
         lista_usuarios = get_dados_arquivo("users")
         for ip in get_dados_arquivo("monitorados"):
-            teste = ip_is_alive(ip)
-            if not teste:
+            teste_ip = ip_is_alive(ip)
+            if not teste_ip:
                 for usuario in lista_usuarios:
-                    #telebot.send_message(usuario, f"❌ Algo de errado com o IP: {ip}")
-                    telebot.send_message(usuario, f"✅ Tudo certo com o IP: {ip}") #envia a mensagem tudo certo
+                    telebot.send_message(usuario, f"❌ Algo de errado com o IP: {ip}")
+                    #telebot.send_message(usuario, f"✅ Tudo certo com o IP: {ip}") #envia a mensagem tudo certo
             #else:
                 #for usuario in lista_usuarios:
                     #bot.send_message(usuario, f"❌ Algo de errado com o IP: {ip}") #envia a mensagem de erro

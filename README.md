@@ -26,7 +26,7 @@ Usa o protocolo ICMP para isso.
 
 
 2. ### Pastas
-- Uma pasta chama *arquivos* será criada automaticamente na primeira execução script.
+- Uma pasta chamada *arquivos* será criada automaticamente na primeira execução script.
 - Na pasta *arquivos* serão salvos as informações dos usuarios e ips monitorados
 
 
@@ -39,7 +39,6 @@ Usa o protocolo ICMP para isso.
 
 ## Sintaxe de Uso 
 ``` python3 main.py ```
-
 
 
 ## IMPORTANTE!!!
