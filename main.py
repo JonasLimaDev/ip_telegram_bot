@@ -3,9 +3,6 @@ import telebot
 from modulos import *
 import threading
 import datetime
-import subprocess  
-import platform , os    
-import pprint
 from time import sleep
 from multiprocessing.pool import ThreadPool
 
@@ -13,21 +10,20 @@ token = open("TOKEN",'r')
 CHAVE_API = token.read()
 
 bot = telebot.TeleBot(CHAVE_API)
-criar_arquivos()
+criar_arquivos() # cria os arquivos iniciais que precisa
 
 def ping(telebot):
     """
     Faz o teste de ping constante de ip
     """
     while(True):
-        
         lista_usuarios = get_dados_arquivo("users")
         for ip in get_dados_arquivo("monitorados"):
             teste = ip_is_alive(ip)
             if not teste:
                 for usuario in lista_usuarios:
-                    telebot.send_message(usuario, f"❌ Algo de errado com o IP: {ip}")
-                    #bot.send_message(usuario, f"✅ Tudo certo com o IP: {ip}") #envia a mensagem tudo certo
+                    #telebot.send_message(usuario, f"❌ Algo de errado com o IP: {ip}")
+                    telebot.send_message(usuario, f"✅ Tudo certo com o IP: {ip}") #envia a mensagem tudo certo
             #else:
                 #for usuario in lista_usuarios:
                     #bot.send_message(usuario, f"❌ Algo de errado com o IP: {ip}") #envia a mensagem de erro

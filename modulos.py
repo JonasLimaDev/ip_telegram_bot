@@ -19,10 +19,15 @@ def criar_arquivos():
     """
     Cria os arquivo que serão usado pelo programa.
     """
+    if not os.path.exists("./arquivos"):
+        os.system("mkdir ./arquivos")
+
     for arquivo in lista_arquivos.values():
         if not os.path.exists(arquivo):
             arquivo = open(arquivo,'w')
             arquivo.close()
+        else:
+            continue
     
 
 def get_dados_arquivo(tipo):
@@ -38,7 +43,7 @@ def get_dados_arquivo(tipo):
 
 def salvar_usuario(user_chat_id):
     """
-    salva um usuário para receber alertas
+    Salva o usuário para receber alertas.
     """
     usuarios_atuais = get_dados_arquivo("users")
     if str(user_chat_id) not in usuarios_atuais:
