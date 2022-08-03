@@ -31,13 +31,14 @@ def get_dados_arquivo(tipo):
     """
     lista =[]
     with open(lista_arquivos[tipo], "r") as file:
-        for linha in file.readlines()():
+        for linha in file.readlines():
             lista.append(linha.replace("\n",""))
     return lista
 
 
-def inserir_usuario(user_chat_id):
+def salvar_usuario(user_chat_id):
     """
+    salva um usuário para receber alertas
     """
     usuarios_atuais = get_dados_arquivo("users")
     if str(user_chat_id) not in usuarios_atuais:
@@ -48,7 +49,7 @@ def inserir_usuario(user_chat_id):
         return False
 
 
-def remover_usuario(user_chat_id):
+def deletar_usuario(user_chat_id):
     """
     Remove um id dos arquivo de usuários.
     Ao remover o usuário deixará de receber notificações. 
@@ -63,8 +64,16 @@ def remover_usuario(user_chat_id):
     else:
         return False
 
-def adicionar_ip_monitorado():
-    pass
+
+def adicionar_ip_monitorado(ip_str):
+    ips_monitorados = get_dados_arquivo("monitorados")
+    if ip_str not in ips_monitorados:
+        with open(lista_arquivos['users'], "a") as f:
+            f.write(f"{ip_str}\n")
+        return True
+    else:
+        return False
+
 
 def salvar_ip_alerta(ip_lista_adicionar):
     """
@@ -87,7 +96,6 @@ def remover_ip_alerta(ip_lista_remover):
                 f.write(f"{ip}\n")
 
 
-
 #|=============================================================|#
 #|                  FUNÇÕES DE TESTES DO IP'S                  |#
 #|                                                             |#
@@ -106,3 +114,6 @@ def ip_is_alive(ip_str):
     else:
         return False
 
+
+if __name__ == '__main__':
+    criar_arquivos()
