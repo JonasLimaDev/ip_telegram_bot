@@ -96,6 +96,7 @@ def menu_ajuda(mensagem):
 
     bot.send_message(mensagem.chat.id, texto, parse_mode="HTML")
 
+
 def verificar(mensagem):
     return True
 
